@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0611EB7828FDEF5100D38641 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611EB7728FDEF5100D38641 /* Constant.swift */; };
+		0611EB7A28FDEF9100D38641 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611EB7928FDEF9100D38641 /* PaddingLabel.swift */; };
 		0655F6FA28F6408700A64C36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F6F928F6408700A64C36 /* AppDelegate.swift */; };
 		0655F6FC28F6408700A64C36 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F6FB28F6408700A64C36 /* SceneDelegate.swift */; };
 		0655F6FE28F6408700A64C36 /* IncidentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F6FD28F6408700A64C36 /* IncidentDetailViewController.swift */; };
@@ -20,14 +22,11 @@
 		0655F71F28F66B4000A64C36 /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F71E28F66B4000A64C36 /* IncidentListViewModel.swift */; };
 		0655F72128F66D1900A64C36 /* IncidentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F72028F66D1900A64C36 /* IncidentDataModel.swift */; };
 		0655F72328F66D4700A64C36 /* IncidentDataRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F72228F66D4700A64C36 /* IncidentDataRepo.swift */; };
-		0655F72528F66ED500A64C36 /* IncidentDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F72428F66ED500A64C36 /* IncidentDataProtocol.swift */; };
 		0655F72728F6705500A64C36 /* IncidentRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F72628F6705500A64C36 /* IncidentRemoteDataSource.swift */; };
 		0655F72A28F6855D00A64C36 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F72928F6855D00A64C36 /* AppEnvironment.swift */; };
 		0655F72D28F6894400A64C36 /* IncidentListDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F72C28F6894400A64C36 /* IncidentListDI.swift */; };
 		0655F72F28F68B9100A64C36 /* AppDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F72E28F68B9100A64C36 /* AppDI.swift */; };
 		0655F73128F77C4F00A64C36 /* IncidentListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F73028F77C4F00A64C36 /* IncidentListCellView.swift */; };
-		0655F73428F8D8A700A64C36 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F73328F8D8A700A64C36 /* PaddingLabel.swift */; };
-		0655F73828F8F94300A64C36 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F73728F8F94300A64C36 /* Constant.swift */; };
 		0655F73B28F90D7900A64C36 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F73A28F90D7900A64C36 /* Utils.swift */; };
 		06CB082928FA1A6500580D16 /* IncidentCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CB082828FA1A6500580D16 /* IncidentCellModel.swift */; };
 		06CB082B28FA4DE000580D16 /* IncidentListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CB082A28FA4DE000580D16 /* IncidentListModel.swift */; };
@@ -37,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0611EB7728FDEF5100D38641 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		0611EB7928FDEF9100D38641 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		0655F6F628F6408700A64C36 /* Incidents.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Incidents.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0655F6F928F6408700A64C36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0655F6FB28F6408700A64C36 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,14 +53,11 @@
 		0655F71E28F66B4000A64C36 /* IncidentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		0655F72028F66D1900A64C36 /* IncidentDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentDataModel.swift; sourceTree = "<group>"; };
 		0655F72228F66D4700A64C36 /* IncidentDataRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentDataRepo.swift; sourceTree = "<group>"; };
-		0655F72428F66ED500A64C36 /* IncidentDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentDataProtocol.swift; sourceTree = "<group>"; };
 		0655F72628F6705500A64C36 /* IncidentRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentRemoteDataSource.swift; sourceTree = "<group>"; };
 		0655F72928F6855D00A64C36 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		0655F72C28F6894400A64C36 /* IncidentListDI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListDI.swift; sourceTree = "<group>"; };
 		0655F72E28F68B9100A64C36 /* AppDI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDI.swift; sourceTree = "<group>"; };
 		0655F73028F77C4F00A64C36 /* IncidentListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListCellView.swift; sourceTree = "<group>"; };
-		0655F73328F8D8A700A64C36 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
-		0655F73728F8F94300A64C36 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		0655F73A28F90D7900A64C36 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		06CB082828FA1A6500580D16 /* IncidentCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentCellModel.swift; sourceTree = "<group>"; };
 		06CB082A28FA4DE000580D16 /* IncidentListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListModel.swift; sourceTree = "<group>"; };
@@ -143,7 +141,6 @@
 			children = (
 				0655F72028F66D1900A64C36 /* IncidentDataModel.swift */,
 				0655F72228F66D4700A64C36 /* IncidentDataRepo.swift */,
-				0655F72428F66ED500A64C36 /* IncidentDataProtocol.swift */,
 				0655F72628F6705500A64C36 /* IncidentRemoteDataSource.swift */,
 			);
 			path = Data;
@@ -198,8 +195,8 @@
 		0655F73228F8D88C00A64C36 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				0655F73328F8D8A700A64C36 /* PaddingLabel.swift */,
-				0655F73728F8F94300A64C36 /* Constant.swift */,
+				0611EB7928FDEF9100D38641 /* PaddingLabel.swift */,
+				0611EB7728FDEF5100D38641 /* Constant.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -342,18 +339,17 @@
 				0655F71F28F66B4000A64C36 /* IncidentListViewModel.swift in Sources */,
 				0655F72F28F68B9100A64C36 /* AppDI.swift in Sources */,
 				0655F6FE28F6408700A64C36 /* IncidentDetailViewController.swift in Sources */,
-				0655F73428F8D8A700A64C36 /* PaddingLabel.swift in Sources */,
 				0655F73128F77C4F00A64C36 /* IncidentListCellView.swift in Sources */,
 				06CB083028FA6C7400580D16 /* IncidentDetailCellView.swift in Sources */,
-				0655F73828F8F94300A64C36 /* Constant.swift in Sources */,
+				0611EB7A28FDEF9100D38641 /* PaddingLabel.swift in Sources */,
 				0655F72328F66D4700A64C36 /* IncidentDataRepo.swift in Sources */,
 				0655F72728F6705500A64C36 /* IncidentRemoteDataSource.swift in Sources */,
 				0655F72A28F6855D00A64C36 /* AppEnvironment.swift in Sources */,
 				06CB083328FB36C900580D16 /* IncidentDetailViewModel.swift in Sources */,
 				0655F70F28F641AE00A64C36 /* IncidentListViewController.swift in Sources */,
-				0655F72528F66ED500A64C36 /* IncidentDataProtocol.swift in Sources */,
 				06CB083628FC7C8500580D16 /* IncidentDetailModelTable.swift in Sources */,
 				0655F71B28F6665B00A64C36 /* IncidentInteractor.swift in Sources */,
+				0611EB7828FDEF5100D38641 /* Constant.swift in Sources */,
 				06CB082B28FA4DE000580D16 /* IncidentListModel.swift in Sources */,
 				0655F73B28F90D7900A64C36 /* Utils.swift in Sources */,
 				06CB082928FA1A6500580D16 /* IncidentCellModel.swift in Sources */,
