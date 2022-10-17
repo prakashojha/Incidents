@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// MARK: Constants values available App wide. 
 class Constant{
     
     private init() {}

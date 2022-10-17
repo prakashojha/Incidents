@@ -10,7 +10,6 @@ import UIKit
 
 class IncidentListCellView: UITableViewCell{
     
-    
     var cellViewModel: IncidentCellModel?{
         didSet{
             self.title.text = cellViewModel?.title
@@ -20,7 +19,7 @@ class IncidentListCellView: UITableViewCell{
         }
     }
     
-    
+    // Image data is set separately after image is loaded. There can be a delay in loading image data
     var imageData: Data?{
         didSet{
             if let imageData = imageData{
@@ -37,7 +36,6 @@ class IncidentListCellView: UITableViewCell{
         return view
     }()
     
-    
     private lazy var icon: UIView = {
         let view = UIView()
         view.addSubview(image)
@@ -51,7 +49,6 @@ class IncidentListCellView: UITableViewCell{
         return view
     }()
     
-    
     private lazy var lastUpdatedDate: UILabel = {
         let lastUpdatedDate = UILabel()
         lastUpdatedDate.textAlignment = .left
@@ -62,7 +59,6 @@ class IncidentListCellView: UITableViewCell{
         return lastUpdatedDate
     }()
     
-    
     private lazy var title: UILabel = {
         let title = UILabel()
         title.textAlignment = .left
@@ -72,7 +68,6 @@ class IncidentListCellView: UITableViewCell{
         title.textColor = .label
         return title
     }()
-    
     
     private lazy var badge: UILabel = {
         let label = PaddingLabel(top: 5, bottom: 5, left: 5, right: 5)
@@ -86,7 +81,6 @@ class IncidentListCellView: UITableViewCell{
         return label
     }()
     
-    
     private lazy var rightChildStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [lastUpdatedDate, title, badge])
         stackView.axis = .vertical
@@ -95,15 +89,12 @@ class IncidentListCellView: UITableViewCell{
         return stackView
     }()
     
-    
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         self.accessoryType = .disclosureIndicator
         setupView()
     }
-    
     
     func setupView(){
         contentView.addSubview(icon)
@@ -116,12 +107,10 @@ class IncidentListCellView: UITableViewCell{
         setupConstraints()
     }
     
-    
     func setupConstraints(){
         setupIconConstraint()
         setupStackViewConstraints()
     }
-    
     
     func setupStackViewConstraints(){
         rightChildStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -133,7 +122,6 @@ class IncidentListCellView: UITableViewCell{
         ])
     }
     
-
     func setupIconConstraint(){
         icon.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -141,20 +129,16 @@ class IncidentListCellView: UITableViewCell{
             icon.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 0),
             icon.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 0),
             icon.widthAnchor.constraint(equalToConstant: Constant.shared.iconImageWidth),
-
         ])
     }
     
-   
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
-
+// Extension to get colour for various status. Used by label.
 extension IncidentListCellView{
-    
     func getColor(status: String?)->UIColor{
         switch(status){
         case "On Scene": return .systemBlue

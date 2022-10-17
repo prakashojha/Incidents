@@ -7,8 +7,8 @@
 
 import Foundation
 
+//MARK: Model for IncidentListViewController
 struct IncidentListModel{
-    
     var isSortAscending: Bool = false
     var incidents: [IncidentEntity] = []
     /// Used while searching
@@ -20,4 +20,7 @@ struct IncidentListModel{
     var heightForRowAt: Float = 100
     
     var dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss"
+    var cellIdentifier = "IncidentListCellView"
+    var navigationTitle = "Incidents"
+    var sortButtonImage = "arrow.up.arrow.down"
 }

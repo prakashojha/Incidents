@@ -15,7 +15,9 @@ class IncidentListDI {
         self.environment = environment
     }
     
-    // Manage Dependencies
+    
+    ///  Manage Dependencies
+    /// - Returns: A View Model for IncidentLitViewController
     func dependencies()->IncidentListViewModel {
         let baseUrl = environment.baseURL
         let incidentRemoteDataSource = IncidentRemoteDataSource(urlString: baseUrl)
@@ -23,4 +25,6 @@ class IncidentListDI {
         let incidentInteractor = IncidentInteractor(incidentDomainRepoInterface: incidentDataRepo)
         return IncidentListViewModel(model: IncidentListModel(), incidentInteractor: incidentInteractor)
     }
+    
+    
 }

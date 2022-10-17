@@ -8,27 +8,57 @@
 import Foundation
 
 
-
-/*
- IncidentCellModel(title: Optional("Ambulance Response - GORDON"), lastUpdateFormatted: Optional("Jul 06, 2022 at 12:47:17 PM"), lastUpdatedDateTime: Optional("2022-07-06T12:47:17"), status: Optional("On Scene"), type: Optional("Ambulance Response"), image: Optional("https://i.imgur.com/MQ189HE.png"))
- */
-
+//MARK: ViewModel to provide data for IncidentDetailViewController(Secondary in SplitViewController)
 class IncidentDetailViewModel{
     
-    var incidentDetailModelTable: [IncidentDetailModelTable] = []
-    var incidentDetailModelMap: IncidentDetailModelMap = IncidentDetailModelMap()
+    // Model to get data from. Contains static data as well
+    private var incidentDetailModel: IncidentDetailModel
+    
+    init(model: IncidentDetailModel){
+        self.incidentDetailModel = model
+    }
+    
+    var incidentDetailModelTable: [IncidentDetailModelTable]{
+        get { return incidentDetailModel.incidentDetailModelTable }
+        set { incidentDetailModel.incidentDetailModelTable = newValue}
+    }
+    
+    var incidentDetailModelMap: IncidentDetailModelMap{
+        get { return incidentDetailModel.incidentDetailModelMap }
+        set { incidentDetailModel.incidentDetailModelMap = newValue }
+    }
+    
+    var mapIconImage: String{
+        get { incidentDetailModel.mapDirectionIcon }
+    }
+    
+    var cellIdentifier: String{
+        return incidentDetailModel.cellIdentifier
+    }
+    
+    var numberOfRowsInSection: Int{
+        return incidentDetailModel.numberOfRowsInSection
+    }
+    
+    var numberOfSections: Int{
+        return incidentDetailModel.numberOfSections
+    }
+    
+    var annotationViewIdentifier: String{
+        return incidentDetailModel.annotationViewIdentifier
+    }
     
     private func removeSpaceFrom(text: String?)->String?{
         var trimmedString: String?
-        
         if let text = text, let subStr = text.components(separatedBy: "-").last{
             trimmedString = subStr.trimmingCharacters(in: CharacterSet(charactersIn: " "))
         }
         return trimmedString
     }
     
+    // Detail View contains only 5 row. Every row has different title and description
     func createModelForTable(with data: IncidentCellModel){
-        incidentDetailModelTable = []
+        self.incidentDetailModelTable = []
         incidentDetailModelTable.append(createLocationData(from: data))
         incidentDetailModelTable.append(createStatusData(from: data))
         incidentDetailModelTable.append(createType(from: data))
@@ -37,8 +67,8 @@ class IncidentDetailViewModel{
         
     }
     
+    // Data for map is populated separately. Image can take time to load
     func createModelForMap(with data: IncidentCellModel){
-        //incidentDetailModelMap = nil
         incidentDetailModelMap.latitude = data.latitude
         incidentDetailModelMap.longitude = data.longitude
         incidentDetailModelMap.title =  removeSpaceFrom(text: data.title)
@@ -82,11 +112,10 @@ class IncidentDetailViewModel{
         var incidentDetail = IncidentDetailModelTable()
         incidentDetail.contentTile = "Description"
         incidentDetail.contentDescription = model.description ?? "Not Available"
-        
         return incidentDetail
     }
     
-    
+    // Provide data for cell for a table row display view
     func cellForAtRow(index: Int)->IncidentDetailModelTable{
         if index >= 0 && index < incidentDetailModelTable.count {
             return incidentDetailModelTable[index]

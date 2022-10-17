@@ -7,6 +7,9 @@
 
 import Foundation
 
+/*
+ Data Requirements of the Domain layer for executing use cases.
+ */
 struct IncidentEntity{
     var title: String?
     var callTime: String?

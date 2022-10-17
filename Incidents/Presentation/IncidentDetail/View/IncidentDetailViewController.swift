@@ -8,13 +8,14 @@
 import UIKit
 import MapKit
 
+// Act as secondary view in split view controller
 class IncidentDetailViewController: UIViewController {
 
     var viewModel: IncidentDetailViewModel!
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(IncidentDetailCellView.self, forCellReuseIdentifier: "IncidentDetailCellView")
+        tableView.register(IncidentDetailCellView.self, forCellReuseIdentifier: viewModel.cellIdentifier)
         tableView.separatorStyle = .singleLine
         tableView.delegate = self
         tableView.dataSource = self
@@ -55,13 +56,16 @@ class IncidentDetailViewController: UIViewController {
     
     var selectedIncident: IncidentCellModel? {
         didSet {
-            //TODO: remove explicitly unwrapped
-            viewModel?.createModelForTable(with: selectedIncident!)
-            viewModel.createModelForMap(with: selectedIncident!)
-            refreshUI()
+            if let selectedIncident = selectedIncident {
+                viewModel?.createModelForTable(with: selectedIncident)
+                viewModel.createModelForMap(with: selectedIncident)
+                refreshUI()
+            }
+            
         }
     }
     
+    // Handle delay in image loading. Annotation is updated when image is available
     var imageData: Data?{
         didSet{
             self.viewModel.incidentDetailModelMap.image = imageData
@@ -86,6 +90,7 @@ class IncidentDetailViewController: UIViewController {
         activityIndicator.startAnimating()
     }
     
+    
     // WorkAround: Map icon disappears when app goes to background. Reset icon image when app comes in foreground
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -93,12 +98,13 @@ class IncidentDetailViewController: UIViewController {
         
     }
     
+    // handle constraints when device rotates
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if view.traitCollection.verticalSizeClass == .compact {
-                stackView.axis = .horizontal
-            } else {
-                stackView.axis = .vertical
-            }
+            stackView.axis = .horizontal
+        } else {
+            stackView.axis = .vertical
+        }
     }
     
     
@@ -112,6 +118,8 @@ class IncidentDetailViewController: UIViewController {
     }
     
     
+    ///  Reduce Navigation Tile to smaller size when moving from Primary to Secondary Controller
+    ///  Reload table and centre map around mapIconImage
     func refreshUI(){
         navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.title = self.selectedIncident?.title
@@ -124,19 +132,22 @@ class IncidentDetailViewController: UIViewController {
         }
     }
     
+    
     func setupView(){
         setUpNavigationBar()
         setupStackView()
         
     }
     
+    ///  dummy button for map navigation
+    //TODO: When clicked, open map and display path from current location to destination
     func setUpNavigationBar(){
-        let button1 =  UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.turn.up.right.diamond.fill"), style: .plain, target: nil, action: nil)
-        self.navigationItem.rightBarButtonItem  = button1
+        let mapNavigation =  UIBarButtonItem(image: UIImage(systemName: viewModel.mapIconImage), style: .plain, target: nil, action: nil)
+        self.navigationItem.rightBarButtonItem  = mapNavigation
     }
     
+    
     func setupStackView(){
-        
         stackView.addArrangedSubview(mapView)
         stackView.addArrangedSubview(tableView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -155,24 +166,26 @@ class IncidentDetailViewController: UIViewController {
     
 }
 
+// MARK: TableViewDataSource delegate implementations.
 extension IncidentDetailViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return viewModel.numberOfRowsInSection
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "IncidentDetailCellView", for: indexPath) as? IncidentDetailCellView
+        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.cellIdentifier, for: indexPath) as? IncidentDetailCellView
         let cellForRow = viewModel.cellForAtRow(index: indexPath.row)
         cell?.cellViewModel = cellForRow
         return cell ?? IncidentDetailCellView()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return viewModel.numberOfSections
     }
 }
 
+// MARK: UITableviewDelegate Implementation
 extension IncidentDetailViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -185,7 +198,7 @@ extension IncidentDetailViewController: UITableViewDelegate{
 }
 
 
-//MARK: Map Related Implementations
+//MARK: MapViewDelegate Implementations
 extension IncidentDetailViewController: MKMapViewDelegate{
     
     func createAnnotation()->MKPointAnnotation{
@@ -198,23 +211,19 @@ extension IncidentDetailViewController: MKMapViewDelegate{
     }
     
     func addAnnotation(){
-       
-            let annotation = createAnnotation()
-            mapView.addAnnotation(annotation)
-        
-       
+        let annotation = createAnnotation()
+        mapView.addAnnotation(annotation)
     }
     
+    /// Remove all the annotations. Currently only one annotation
     func removeAnnotations(){
-       
-            for annotation in mapView.annotations{
-                mapView.removeAnnotation(annotation)
-            
+        for annotation in mapView.annotations{
+            mapView.removeAnnotation(annotation)
         }
     }
     
+    /// Set map region around incident location.
     func setMapRegion(){
-       
         if let latitude = viewModel.incidentDetailModelMap.latitude, let longitude = viewModel.incidentDetailModelMap.longitude{
             let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
             let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), span: span)
@@ -222,6 +231,7 @@ extension IncidentDetailViewController: MKMapViewDelegate{
         }
     }
     
+    ///  used when image load is delayed.
     func addImageToAnnotationView(with imageData: Data?){
         if let imageData = imageData, let annotation = mapView.annotations.first{
             let view = mapView.view(for: annotation)
@@ -231,12 +241,14 @@ extension IncidentDetailViewController: MKMapViewDelegate{
         }
     }
     
-    // MARK: Map Delegate
     
+    // MARK: Map Delegate Implementation
+    
+    ///  Reuse the view for annotation view when annotation loads up again in the visible region.
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else { return nil }
 
-        let identifier = "Annotation"
+        let identifier = viewModel.annotationViewIdentifier
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
         let imageData: Data? = viewModel.incidentDetailModelMap.image
         

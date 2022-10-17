@@ -17,20 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
         self.window = UIWindow(windowScene: windowScene)
-        
-        /*let incidentListViewModel = AppDI.shared.incidentListDependencies()
-        
-        let primaryViewController = IncidentListViewController(viewModel: incidentListViewModel)
-        let primaryNavigationController = UINavigationController(rootViewController: primaryViewController)
-        
-        let secondaryViewController = IncidentDetailViewController(viewModel: IncidentDetailViewModel())
-       // let secondaryNavigationController = UINavigationController(rootViewController: secondaryViewController)
-        
-        primaryViewController.delegate = secondaryViewController
-        let splitViewController = IncidentSplitViewController(viewControllers: [primaryNavigationController, secondaryViewController])*/
-       
         self.window?.rootViewController = IncidentSplitViewController()
         self.window?.makeKeyAndVisible()
         

@@ -7,6 +7,8 @@
 
 import Foundation
 
+//MARK: Model for Primary View Controller
+/// Contains data for table row in IncidentListController. Contains additional data to be passed to DetailView
 struct IncidentCellModel{
     var title: String?
     var lastUpdateFormatted: String?

@@ -14,10 +14,12 @@ protocol IncidentSelectionDelegate: AnyObject {
     func onImageLoad(imageData: Data)
 }
 
+// MARK: Primary View Controller in Split View Controller
 
 class IncidentListViewController: UIViewController {
-    
+    /// model to process and provide data to view
     let viewModel: IncidentListViewModel
+    /// Delegate to get data when a row is selected
     weak var delegate: IncidentSelectionDelegate?
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
@@ -38,11 +40,10 @@ class IncidentListViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
-        searchController.searchBar.placeholder = "Search Status"
+        searchController.searchBar.placeholder = "Search in status"
         return searchController
         
     }()
-    
     
     private var navigationBarAppearance: UINavigationBarAppearance{
         let navigationBarAppearance = UINavigationBarAppearance()
@@ -52,17 +53,14 @@ class IncidentListViewController: UIViewController {
         return navigationBarAppearance
     }
     
-    
     init(viewModel: IncidentListViewModel){
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     override func viewDidLoad() {
         Constant.shared.iconImageWidth = self.view.frame.width < self.view.frame.height ? self.view.frame.width / 8 : self.view.frame.height / 8
@@ -71,7 +69,6 @@ class IncidentListViewController: UIViewController {
         setUpViews()
         fetchData()
     }
-    
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -91,7 +88,8 @@ class IncidentListViewController: UIViewController {
         setupConstraints()
     }
     
-    func passDataToDelegate(){
+    /// Pass data for detail view. Pass Image data when available.
+    func prepareDataForDelegate(){
         let firstCellData = self.viewModel.prepareDataForDelegate(at: 0)
         self.delegate?.onDataLoaded(firstData: firstCellData)
         if let imageUrl = firstCellData.imageUrl{
@@ -102,29 +100,30 @@ class IncidentListViewController: UIViewController {
             })
         }
     }
-
+    
+    func onFetchDataComplete(){
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicator.stopAnimating()
+            self?.tableView.reloadData()
+            self?.prepareDataForDelegate()
+            self?.tableView.refreshControl?.endRefreshing()
+        }
+    }
     
     func fetchData(){
         viewModel.getIncidents()
         viewModel.onLoadData = { [weak self] in
-            DispatchQueue.main.async {
-                self?.activityIndicator.stopAnimating()
-                self?.tableView.reloadData()
-                self?.passDataToDelegate()
-                self?.tableView.refreshControl?.endRefreshing()
-            }
+            self?.onFetchDataComplete()
         }
     }
-    
     
     func setupNavigationView(){
         setupNavigationBar()
         setUpSortBarButtons()
     }
     
-    
     func setupNavigationBar(){
-        navigationItem.title = "Incidents"
+        navigationItem.title = viewModel.navigationTitle
         navigationItem.searchController = searchController
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -135,19 +134,18 @@ class IncidentListViewController: UIViewController {
         self.navigationItem.hidesSearchBarWhenScrolling = false
         //self.navigationItem.searchController?.hidesNavigationBarDuringPresentation = false
     }
-   
     
-    ///Sort button added to the navigation bar
+    ///Sort button added to the navigation bar as RightBar Button
     func setUpSortBarButtons(){
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName :"arrow.up.arrow.down"),
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName :viewModel.sortButtonImage),
                                                                  style: .done, target: self, action: #selector(onSortTapped))
-        
     }
     
+    // MARK: Incident List Sort Implementation
+    /// Sort Incidents based on Status
     @objc func onSortTapped(){
         viewModel.sort()
     }
-    
     
     func setupTableView(){
         view.addSubview(tableView)
@@ -156,21 +154,20 @@ class IncidentListViewController: UIViewController {
         tableView.separatorStyle = .singleLine
         tableView.delegate = self
         tableView.dataSource = self
-        
+        /// Cell separator Insets.
         tableView.separatorInset = UIEdgeInsets(top: 0, left: Constant.shared.iconImageWidth, bottom: 0, right: 0)
         tableView.layoutMargins = .zero
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
     
+    // MARK: Pull To Refresh Implementation
     @objc func pullToRefresh(){
         if let flag = tableView.refreshControl?.isRefreshing, flag == true{
             viewModel.refreshData()
             viewModel.getIncidents()
         }
-        
     }
-    
     
     func setupConstraints(){
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -183,7 +180,7 @@ class IncidentListViewController: UIViewController {
     }
 }
 
-
+//MARK: UITableViewDataSource Implementation
 extension IncidentListViewController: UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -195,7 +192,7 @@ extension IncidentListViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "IncidentListCellView", for: indexPath) as? IncidentListCellView
+        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.cellIdentifier, for: indexPath) as? IncidentListCellView
         let cellForRow = viewModel.cellForAtRow(index: indexPath.row)
         cell?.cellViewModel = cellForRow
         if let imageUrl = cellForRow.imageUrl{
@@ -208,13 +205,14 @@ extension IncidentListViewController: UITableViewDataSource{
     
 }
 
+//MARK: UITableViewDelegate Implementation
 
 extension IncidentListViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(viewModel.heightForRowAt)
     }
     
-    
+    /// Pass data and image to interested party when a row is selected.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCellData = viewModel.prepareDataForDelegate(at: indexPath.row)
         delegate?.incidentSelected(selectedCellData)
@@ -229,7 +227,7 @@ extension IncidentListViewController: UITableViewDelegate{
 }
 
 
-///Search entered text against categories and reload the table
+///Search entered text against status and reload the table
 extension IncidentListViewController : UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }

@@ -7,6 +7,18 @@
 
 import Foundation
 
+
+// Protocol requirement for any entity fetching data form Remote.
+protocol IncidentRemoteDataSourceInterface {
+    init(urlString: String)
+    func getIncidents(handler: @escaping ([IncidentDataModel]) -> Void)
+    func getIncidentImage(imageUrl: String, handler: @escaping (Data?) -> Void)
+}
+
+
+/*
+ An implementation of abstract network service. Used by data layer to make network call
+ */
 class IncidentRemoteDataSource: IncidentRemoteDataSourceInterface {
     
     let urlString: String
@@ -15,6 +27,9 @@ class IncidentRemoteDataSource: IncidentRemoteDataSourceInterface {
         self.urlString = urlString
     }
     
+    
+    /// Retrieve Incident data from API call
+    /// - Parameter handler: Return data in required format. ->`IncidentDataModel`
     func getIncidents(handler: @escaping ([IncidentDataModel]) -> Void) {
         guard let url = URL(string: self.urlString) else{
             handler([])
@@ -31,13 +46,12 @@ class IncidentRemoteDataSource: IncidentRemoteDataSourceInterface {
                 handler([])
                 return
             }
-            //print(model)
             handler(model)
         }
         task.resume()
     }
     
-    /// Fetch image from server and store in local cache. Make network call only when image is not found in local cache
+    /// Fetch image from server 
     func getIncidentImage(imageUrl : String, handler completion: @escaping (Data?)->Void){
         guard let url = URL(string: imageUrl) else {
             completion(nil)

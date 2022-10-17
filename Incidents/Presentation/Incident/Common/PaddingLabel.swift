@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// MARK: A class to provide padding for data inside label.
 final class PaddingLabel: UILabel {
     
     var topInset: CGFloat

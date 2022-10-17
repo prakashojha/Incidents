@@ -24,5 +24,8 @@ class AppDI{
         return incidentListViewModel
     }
     
+    func incidentDetailDependencies()->IncidentDetailViewModel{
+        return IncidentDetailViewModel(model: IncidentDetailModel())
+    }
     
 }

@@ -7,12 +7,13 @@
 
 import Foundation
 
+/* Presenter(ViewModel) calls this method to execute use cases in Domain layer. */
 protocol IncidentInteractorInterface {
-        
     func getIncidents(handler: @escaping ([IncidentEntity]) -> Void)
     func getIncidentImage(imageUrl: String, handler: @escaping (Data?) -> Void)
 }
 
+/* Act as bridge between ViewModel and Domain Layer */
 
 class IncidentInteractor: IncidentInteractorInterface {
     
@@ -22,7 +23,7 @@ class IncidentInteractor: IncidentInteractorInterface {
         self.incidentDomainRepoInterface = incidentDomainRepoInterface
     }
     
-    // Use Case executed by Presenter(ViewModel)
+    // Use Case executed by Presenter(ListViewModel)
     func getIncidents(handler: @escaping ([IncidentEntity]) -> Void) {
         incidentDomainRepoInterface.getIncidents(handler: { (incidentEntities) in
             handler(incidentEntities)

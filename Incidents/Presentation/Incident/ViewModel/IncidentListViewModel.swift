@@ -7,14 +7,14 @@
 
 import Foundation
 
-
+// MARK: Provide data and business logic to view controller 
 class IncidentListViewModel{
-    let cachedImage = NSCache<NSString, NSData>()
+    private let cachedImage = NSCache<NSString, NSData>()
     private var model: IncidentListModel
     private let incidentInteractor: IncidentInteractorInterface
     
     var onLoadData: (()->Void)?
-
+    
     
     init(model: IncidentListModel, incidentInteractor: IncidentInteractorInterface){
         self.incidentInteractor = incidentInteractor
@@ -56,6 +56,18 @@ class IncidentListViewModel{
         return model.heightForRowAt //Float(100)
     }
     
+    var cellIdentifier: String{
+        return model.cellIdentifier
+    }
+    
+    var navigationTitle: String{
+        return model.navigationTitle
+    }
+    
+    var sortButtonImage: String{
+        return model.sortButtonImage
+    }
+    
     func cellForAtRow(index: Int)->IncidentCellModel{
         if index >= 0 && index < model.incidentList.count{
             return model.incidentList[index]
@@ -63,19 +75,12 @@ class IncidentListViewModel{
         return IncidentCellModel()
     }
     
-   
     func prepareDataForDelegate(at index: Int)->IncidentCellModel{
         let selectedCellData = cellForAtRow(index: index)
-        /*if let imageUrl = selectedCellData.imageUrl{
-            getIncidentImage(imageUrl: imageUrl, handler: { imageData in
-                selectedCellData.imageData = imageData
-            })
-        }*/
         return selectedCellData
     }
     
-    
-    func createIncidentCell(with incident: IncidentEntity)->IncidentCellModel{
+    private func createIncidentCell(with incident: IncidentEntity)->IncidentCellModel{
         var cellModel = IncidentCellModel()
         let dateTime = Utils.shared.removeTimeZone(from: incident.lastUpdated!, withCharacter: "+")
         cellModel.title = incident.title
@@ -91,18 +96,16 @@ class IncidentListViewModel{
         return cellModel
     }
     
-    
-    func createIncidentList(with incidents: [IncidentEntity])->[IncidentCellModel]{
+    private func createIncidentList(with incidents: [IncidentEntity])->[IncidentCellModel]{
         var incidentCellArray: [IncidentCellModel] = []
         incidents.forEach { incident in
             let cellModel = createIncidentCell(with: incident)
             incidentCellArray.append(cellModel)
         }
         return incidentCellArray
-        //self.incidentList = incidentCellArray
     }
     
-    
+    ///  Populate array with incident data. By default data is stored in ascending order.
     func getIncidents(){
         incidentInteractor.getIncidents { [weak self] (incidentEntities) in
             if var incidentList = self?.createIncidentList(with: incidentEntities){
@@ -114,6 +117,7 @@ class IncidentListViewModel{
         }
     }
     
+    /// Empty incident tables and cached data
     func refreshData(){
         cachedImage.removeAllObjects()
         self.incidents = []
@@ -121,7 +125,7 @@ class IncidentListViewModel{
         self.incidentList = []
     }
     
-
+    /// Try to  get image data from cache. If not available,  then make network request and store it in cache .
     func getIncidentImage(imageUrl: String, handler: @escaping (Data?)->Void){
         if let imageData = getImageDataFromCache(imageUrl: imageUrl){
             handler(imageData)
@@ -130,7 +134,7 @@ class IncidentListViewModel{
             incidentInteractor.getIncidentImage(imageUrl: imageUrl) { data in
                 guard let data = data else {
                     handler(nil)
-                    return 
+                    return
                 }
                 self.storeImageDataInCache(data: data, imageUrl: imageUrl)
                 handler(data)
@@ -138,16 +142,13 @@ class IncidentListViewModel{
         }
     }
     
-    
     func getImageDataFromCache(imageUrl: String)->Data?{
         return cachedImage.object(forKey: NSString(string: imageUrl)) as? Data
     }
     
-    
     func storeImageDataInCache(data: Data, imageUrl: String){
         self.cachedImage.setObject(data as NSData, forKey: NSString(string: imageUrl))
     }
-    
     
     private func sortAscending(list: inout [IncidentCellModel]){
         let df = DateFormatter()
@@ -164,7 +165,6 @@ class IncidentListViewModel{
             df.date(from: $0.lastUpdatedDateTime!)! > df.date(from: $1.lastUpdatedDateTime!)!
         }
     }
-    
     
     func sort(){
         if !incidentList.isEmpty{

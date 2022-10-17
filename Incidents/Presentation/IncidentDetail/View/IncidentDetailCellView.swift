@@ -11,13 +11,13 @@ import UIKit
 
 class IncidentDetailCellView: UITableViewCell{
     
+    // Update Cell properties
     var cellViewModel: IncidentDetailModelTable?{
         didSet{
             if let title = cellViewModel?.contentTile, let desc = cellViewModel?.contentDescription{
                 let text = title + "\n" + desc
                 let attributedText = text.attributedString(titleLength: title.count, colour: [.secondaryLabel, .label], fontSize: [13, 14])
                 self.title.attributedText = attributedText
-                layoutIfNeeded()
             }
         }
     }
@@ -38,6 +38,7 @@ class IncidentDetailCellView: UITableViewCell{
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         setupView()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -49,13 +50,8 @@ class IncidentDetailCellView: UITableViewCell{
         contentView.addSubview(title)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        setupConstraints()
-    }
     
     func setupConstraints(){
-        
         title.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             title.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
@@ -66,6 +62,7 @@ class IncidentDetailCellView: UITableViewCell{
     }
 }
 
+// Extension to create attributed strings with different colour and font
 extension String{
     func attributedString(titleLength: Int, colour: [UIColor],  fontSize: [CGFloat])->NSMutableAttributedString{
         

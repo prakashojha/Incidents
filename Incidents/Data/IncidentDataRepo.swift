@@ -7,9 +7,14 @@
 
 import Foundation
 
+
+/* Interface exposed by Domain layer.-> IncidentRemoteDataSourceInterface. Data layer implements interface to provide data to the Domain layer
+ Act as a bridge between Data and Domain layer*/
+
 class IncidentDataRepo: IncidentDomainRepoInterface{
     
-    let incidentRemoteDataSource: IncidentRemoteDataSourceInterface
+    /// Used to make network call.
+    let incidentRemoteDataSource: IncidentRemoteDataSourceInterface 
     
     init(incidentRemoteDataSource: IncidentRemoteDataSourceInterface){
         self.incidentRemoteDataSource = incidentRemoteDataSource
