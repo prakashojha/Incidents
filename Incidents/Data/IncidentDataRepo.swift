@@ -22,25 +22,32 @@ class IncidentDataRepo: IncidentDomainRepoInterface{
     
     
     func getIncidents(handler: @escaping ([IncidentEntity]) -> Void) {
-        self.incidentRemoteDataSource.getIncidents { (incidentModelArray) in
-            
-            //convert from Model to Entity and pass it to handler
-            var incidentEntity: [IncidentEntity] = []
-            incidentModelArray.forEach { model in
-                incidentEntity.append(model.getIncidentEntity())
+        self.incidentRemoteDataSource.getIncidents { result in
+            switch(result){
+            case .success(let incidentModelArray):
+                var incidentEntity: [IncidentEntity] = []
+                incidentModelArray.forEach { model in
+                    incidentEntity.append(model.getIncidentEntity())
+                }
+                handler(incidentEntity)
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+                handler([])
             }
-            handler(incidentEntity)
         }
     }
     
     
     func getIncidentImage(imageUrl: String, handler: @escaping (Data?) -> Void) {
-        self.incidentRemoteDataSource.getIncidentImage(imageUrl: imageUrl) { data in
-            handler(data)
+        self.incidentRemoteDataSource.getIncidentImage(imageUrl: imageUrl) { result in
+            switch(result){
+            case .success(let data):
+                handler(data)
+            case .failure(let error):
+                print(error.localizedDescription)
+                handler(nil)
+            }
         }
     }
-    
-    
-   
-    
 }

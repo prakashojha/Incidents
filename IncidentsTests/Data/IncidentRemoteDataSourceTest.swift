@@ -6,63 +6,30 @@
 //
 
 import XCTest
-@testable import Incidents
 
 class IncidentRemoteDataSourceTest: XCTestCase {
 
-    var config: URLSessionConfiguration!
-    var urlSession: URLSession!
-    
     override func setUpWithError() throws {
-        config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [MockURLProtocol.self]
-        urlSession = URLSession(configuration: config)
+        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDownWithError() throws {
-        config = nil
-        urlSession = nil
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testRemoteDataSource_WhenGivenValidUrl_ReturnsValidData(){
-        
-        // Arrange
-       // let config = URLSessionConfiguration.ephemeral
-        //config.protocolClasses = [MockURLProtocol.self]
-       // let urlSession = URLSession(configuration: config)
-        
-        MockURLProtocol.stubResponse = MockData.data1.data(using: .utf8)
-        let sut = IncidentRemoteDataSource(urlString: "https://dummy.com", urlSession: urlSession)
-        
-        // Act
-        sut.getIncidents { result in
-            switch(result){
-            case .success(let dataModel):
-                
-                // Assert
-               // print( dataModel.first!.status)
-                XCTAssertEqual(dataModel.first!.status, "On cene")
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+    func testExample() throws {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        // Any test you write for XCTest can be annotated as throws and async.
+        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
+        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    }
+
+    func testPerformanceExample() throws {
+        // This is an example of a performance test case.
+        self.measure {
+            // Put the code you want to measure the time of here.
         }
     }
-    
-    func testRemoteDataSource_WhenGivenInvalidUrl_ReturnsInvalidUrl(){
-        // Arrange
-        MockURLProtocol.stubResponse = MockData.data1.data(using: .utf8)
-        
-        let sut = IncidentRemoteDataSource(urlString: "InvalidUrl.com", urlSession: urlSession)
-        
-        // Act
-        sut.getIncidents { result in
-            switch(result){
-            case .failure(let error):
-                // Assert
-                //print(error.localizedDescription)
-                XCTAssertEqual(error.localizedDescription, "Invalid URL string")
-            default:()
-            }
-        }
-    }
+
 }

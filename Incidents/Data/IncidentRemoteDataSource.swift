@@ -7,12 +7,28 @@
 
 import Foundation
 
+enum NetworkError: Error{
+    case InvalidUrl
+    case NoDataFound
+    case DecodingIssue
+}
+
+extension NetworkError: LocalizedError{
+    var errorDescription: String?{
+        switch(self){
+        case .InvalidUrl: return "Invalid URL string"
+        case .NoDataFound: return "Data not available"
+        case .DecodingIssue: return "Issue found while decoding data to respective format"
+        }
+    }
+}
+
 
 // Protocol requirement for any entity fetching data form Remote.
 protocol IncidentRemoteDataSourceInterface {
-    init(urlString: String)
-    func getIncidents(handler: @escaping ([IncidentDataModel]) -> Void)
-    func getIncidentImage(imageUrl: String, handler: @escaping (Data?) -> Void)
+    init(urlString: String, urlSession: URLSession)
+    func getIncidents(handler: @escaping (Result<[IncidentDataModel], Error>) -> Void)
+    func getIncidentImage(imageUrl: String, handler: @escaping (Result<Data?, Error>) -> Void)
 }
 
 
@@ -21,52 +37,50 @@ protocol IncidentRemoteDataSourceInterface {
  */
 class IncidentRemoteDataSource: IncidentRemoteDataSourceInterface {
     
-    let urlString: String
+    private let urlString: String
+    private var urlSession: URLSession
     
-    required init(urlString: String) {
+    required init(urlString: String, urlSession: URLSession = .shared) {
         self.urlString = urlString
+        self.urlSession = urlSession
     }
-    
     
     /// Retrieve Incident data from API call
     /// - Parameter handler: Return data in required format. ->`IncidentDataModel`
-    func getIncidents(handler: @escaping ([IncidentDataModel]) -> Void) {
+    func getIncidents(handler: @escaping (Result<[IncidentDataModel], Error>) -> Void) {
         guard let url = URL(string: self.urlString) else{
-            handler([])
+            print("INVALID URL")
+            handler(.failure(NetworkError.InvalidUrl))
             return
         }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let dataTask = urlSession.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
-                handler([])
+                handler(.failure(NetworkError.NoDataFound))
                 return
             }
-            
             guard let model = try? JSONDecoder().decode([IncidentDataModel].self, from: data) else {
-                handler([])
+                handler(.failure(NetworkError.DecodingIssue))
                 return
             }
-            handler(model)
+            handler(.success(model))
         }
-        task.resume()
+        dataTask.resume()
     }
     
-    /// Fetch image from server 
-    func getIncidentImage(imageUrl : String, handler completion: @escaping (Data?)->Void){
+    /// Fetch image from server
+    func getIncidentImage(imageUrl: String, handler: @escaping (Result<Data?, Error>) -> Void){
         guard let url = URL(string: imageUrl) else {
-            completion(nil)
+            handler(.failure(NetworkError.InvalidUrl))
             return
         }
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard error == nil, let data = data else {
-                completion(nil)
+                handler(.failure(NetworkError.NoDataFound))
                 return
             }
-            
-            completion(data)
+            handler(.success(data))
             
         }.resume()
-        
     }
 }
