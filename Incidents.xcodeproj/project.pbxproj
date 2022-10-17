@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0611EB7828FDEF5100D38641 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611EB7728FDEF5100D38641 /* Constant.swift */; };
 		0611EB7A28FDEF9100D38641 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611EB7928FDEF9100D38641 /* PaddingLabel.swift */; };
+		0611EB9728FE185D00D38641 /* IncidentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611EB9628FE185D00D38641 /* IncidentsTests.swift */; };
+		0611EBA128FE1B1E00D38641 /* MockUrlProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611EBA028FE1B1E00D38641 /* MockUrlProtocol.swift */; };
+		0611EBA328FE1B4D00D38641 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611EBA228FE1B4D00D38641 /* MockData.swift */; };
+		0611EBA528FE1B7A00D38641 /* IncidentRemoteDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611EBA428FE1B7A00D38641 /* IncidentRemoteDataSourceTest.swift */; };
 		0655F6FA28F6408700A64C36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F6F928F6408700A64C36 /* AppDelegate.swift */; };
 		0655F6FC28F6408700A64C36 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F6FB28F6408700A64C36 /* SceneDelegate.swift */; };
 		0655F6FE28F6408700A64C36 /* IncidentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F6FD28F6408700A64C36 /* IncidentDetailViewController.swift */; };
@@ -35,9 +39,24 @@
 		06CB083628FC7C8500580D16 /* IncidentDetailModelTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CB083528FC7C8500580D16 /* IncidentDetailModelTable.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0611EB9828FE185D00D38641 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0655F6EE28F6408700A64C36 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0655F6F528F6408700A64C36;
+			remoteInfo = Incidents;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0611EB7728FDEF5100D38641 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		0611EB7928FDEF9100D38641 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		0611EB9428FE185D00D38641 /* IncidentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IncidentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0611EB9628FE185D00D38641 /* IncidentsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentsTests.swift; sourceTree = "<group>"; };
+		0611EBA028FE1B1E00D38641 /* MockUrlProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUrlProtocol.swift; sourceTree = "<group>"; };
+		0611EBA228FE1B4D00D38641 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		0611EBA428FE1B7A00D38641 /* IncidentRemoteDataSourceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentRemoteDataSourceTest.swift; sourceTree = "<group>"; };
 		0655F6F628F6408700A64C36 /* Incidents.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Incidents.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0655F6F928F6408700A64C36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0655F6FB28F6408700A64C36 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +86,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0611EB9128FE185D00D38641 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0655F6F328F6408700A64C36 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -77,10 +103,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0611EB9528FE185D00D38641 /* IncidentsTests */ = {
+			isa = PBXGroup;
+			children = (
+				0611EB9F28FE1B0900D38641 /* Data */,
+				0611EB9628FE185D00D38641 /* IncidentsTests.swift */,
+			);
+			path = IncidentsTests;
+			sourceTree = "<group>";
+		};
+		0611EB9F28FE1B0900D38641 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				0611EBA028FE1B1E00D38641 /* MockUrlProtocol.swift */,
+				0611EBA228FE1B4D00D38641 /* MockData.swift */,
+				0611EBA428FE1B7A00D38641 /* IncidentRemoteDataSourceTest.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		0655F6ED28F6408700A64C36 = {
 			isa = PBXGroup;
 			children = (
 				0655F6F828F6408700A64C36 /* Incidents */,
+				0611EB9528FE185D00D38641 /* IncidentsTests */,
 				0655F6F728F6408700A64C36 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				0655F6F628F6408700A64C36 /* Incidents.app */,
+				0611EB9428FE185D00D38641 /* IncidentsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -266,6 +313,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0611EB9328FE185D00D38641 /* IncidentsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0611EB9C28FE185D00D38641 /* Build configuration list for PBXNativeTarget "IncidentsTests" */;
+			buildPhases = (
+				0611EB9028FE185D00D38641 /* Sources */,
+				0611EB9128FE185D00D38641 /* Frameworks */,
+				0611EB9228FE185D00D38641 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0611EB9928FE185D00D38641 /* PBXTargetDependency */,
+			);
+			name = IncidentsTests;
+			productName = IncidentsTests;
+			productReference = 0611EB9428FE185D00D38641 /* IncidentsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0655F6F528F6408700A64C36 /* Incidents */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0655F70A28F6408A00A64C36 /* Build configuration list for PBXNativeTarget "Incidents" */;
@@ -293,6 +358,10 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					0611EB9328FE185D00D38641 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 0655F6F528F6408700A64C36;
+					};
 					0655F6F528F6408700A64C36 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -312,11 +381,19 @@
 			projectRoot = "";
 			targets = (
 				0655F6F528F6408700A64C36 /* Incidents */,
+				0611EB9328FE185D00D38641 /* IncidentsTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0611EB9228FE185D00D38641 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0655F6F428F6408700A64C36 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -329,6 +406,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0611EB9028FE185D00D38641 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0611EB9728FE185D00D38641 /* IncidentsTests.swift in Sources */,
+				0611EBA328FE1B4D00D38641 /* MockData.swift in Sources */,
+				0611EBA528FE1B7A00D38641 /* IncidentRemoteDataSourceTest.swift in Sources */,
+				0611EBA128FE1B1E00D38641 /* MockUrlProtocol.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0655F6F228F6408700A64C36 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -362,6 +450,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0611EB9928FE185D00D38641 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0655F6F528F6408700A64C36 /* Incidents */;
+			targetProxy = 0611EB9828FE185D00D38641 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		0655F70428F6408A00A64C36 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -374,6 +470,42 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0611EB9A28FE185D00D38641 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U5BAT7XP2Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dotlight.IncidentsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Incidents.app/Incidents";
+			};
+			name = Debug;
+		};
+		0611EB9B28FE185D00D38641 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U5BAT7XP2Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dotlight.IncidentsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Incidents.app/Incidents";
+			};
+			name = Release;
+		};
 		0655F70828F6408A00A64C36 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -547,6 +679,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0611EB9C28FE185D00D38641 /* Build configuration list for PBXNativeTarget "IncidentsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0611EB9A28FE185D00D38641 /* Debug */,
+				0611EB9B28FE185D00D38641 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0655F6F128F6408700A64C36 /* Build configuration list for PBXProject "Incidents" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
