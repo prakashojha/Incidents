@@ -49,7 +49,6 @@ class IncidentRemoteDataSource: IncidentRemoteDataSourceInterface {
     /// - Parameter handler: Return data in required format. ->`IncidentDataModel`
     func getIncidents(handler: @escaping (Result<[IncidentDataModel], Error>) -> Void) {
         guard let url = URL(string: self.urlString) else{
-            print("INVALID URL")
             handler(.failure(NetworkError.InvalidUrl))
             return
         }
@@ -58,6 +57,7 @@ class IncidentRemoteDataSource: IncidentRemoteDataSourceInterface {
                 handler(.failure(NetworkError.NoDataFound))
                 return
             }
+            print(data)
             guard let model = try? JSONDecoder().decode([IncidentDataModel].self, from: data) else {
                 handler(.failure(NetworkError.DecodingIssue))
                 return

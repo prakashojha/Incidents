@@ -12,6 +12,7 @@ class IncidentRemoteDataSourceTest: XCTestCase {
 
     var config: URLSessionConfiguration!
     var urlSession: URLSession!
+    let urlString = "https://run.mocky.io/v3/5e90b420-388e-4913-b240-b5326823212c"
     
     override func setUpWithError() throws {
         config = URLSessionConfiguration.ephemeral
@@ -24,46 +25,49 @@ class IncidentRemoteDataSourceTest: XCTestCase {
         urlSession = nil
     }
 
-    func testRemoteDataSource_WhenGivenValidUrl_ReturnsValidData(){
+    private func getJSONData(from resource: String)->Data?{
+        var data: Data?
+        if let file = Bundle(for: type(of: self)).url(forResource: resource, withExtension: "json") {
+            data = try! Data(contentsOf: file)
+        }
+        return data
+    }
+    
+    func testRemoteDataSource_WhenGivenSuccessfulResponse_ReturnsSuccess(){
         
         // Arrange
-       // let config = URLSessionConfiguration.ephemeral
-        //config.protocolClasses = [MockURLProtocol.self]
-       // let urlSession = URLSession(configuration: config)
-        
-        MockURLProtocol.stubResponse = MockData.data1.data(using: .utf8)
-        let sut = IncidentRemoteDataSource(urlString: "https://dummy.com", urlSession: urlSession)
-        
+        MockURLProtocol.stubResponse = getJSONData(from: "ValidResponse")
+        let sut = IncidentRemoteDataSource(urlString: urlString, urlSession: urlSession)
+        let expectation = self.expectation(description: "testRemoteDataSourceWhenGivenValidUrlReturnsValidData")
         // Act
         sut.getIncidents { result in
             switch(result){
             case .success(let dataModel):
-                
                 // Assert
-               // print( dataModel.first!.status)
-                XCTAssertEqual(dataModel.first!.status, "On cene")
-            case .failure(let error):
-                print(error.localizedDescription)
+                XCTAssertEqual(dataModel.first!.status, "On Scene")
+                expectation.fulfill()
+            default:()
             }
         }
+       waitForExpectations(timeout: 5)
     }
     
-    func testRemoteDataSource_WhenGivenInvalidUrl_ReturnsInvalidUrl(){
+    func testRemoteDataSource_WhenReceiveDifferentJSONResponse_ReturnsError(){
         // Arrange
-        MockURLProtocol.stubResponse = MockData.data1.data(using: .utf8)
-        
-        let sut = IncidentRemoteDataSource(urlString: "InvalidUrl.com", urlSession: urlSession)
-        
+        MockURLProtocol.stubResponse = getJSONData(from: "InvalidResponse")
+        let sut = IncidentRemoteDataSource(urlString: urlString, urlSession: urlSession)
+        let expectation = self.expectation(description: "testRemoteDataSourceWhenGivenValidUrlReturnsValidData")
         // Act
         sut.getIncidents { result in
             switch(result){
             case .failure(let error):
                 // Assert
-                //print(error.localizedDescription)
-                XCTAssertEqual(error.localizedDescription, "Invalid URL string")
+                XCTAssertEqual(NetworkError.DecodingIssue.localizedDescription, error.localizedDescription)
+                expectation.fulfill()
             default:()
             }
         }
+       waitForExpectations(timeout: 5)
     }
 }
 
