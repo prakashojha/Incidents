@@ -113,12 +113,20 @@
 		0611EB9F28FE1B0900D38641 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				06505CDB28FE308F00E617A2 /* MockData */,
 				0611EBA028FE1B1E00D38641 /* MockUrlProtocol.swift */,
 				0611EBA428FE1B7A00D38641 /* IncidentRemoteDataSourceTest.swift */,
-				06505CD828FE272A00E617A2 /* ValidResponse.json */,
-				06505CDA28FE2E0000E617A2 /* InvalidResponse.json */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		06505CDB28FE308F00E617A2 /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				06505CDA28FE2E0000E617A2 /* InvalidResponse.json */,
+				06505CD828FE272A00E617A2 /* ValidResponse.json */,
+			);
+			path = MockData;
 			sourceTree = "<group>";
 		};
 		0655F6ED28F6408700A64C36 = {

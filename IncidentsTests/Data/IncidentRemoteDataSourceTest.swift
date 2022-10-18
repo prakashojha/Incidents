@@ -56,13 +56,30 @@ class IncidentRemoteDataSourceTest: XCTestCase {
         // Arrange
         MockURLProtocol.stubResponse = getJSONData(from: "InvalidResponse")
         let sut = IncidentRemoteDataSource(urlString: urlString, urlSession: urlSession)
-        let expectation = self.expectation(description: "testRemoteDataSourceWhenGivenValidUrlReturnsValidData")
+        let expectation = self.expectation(description: "RemoteDataSourceWhenReceiveDifferentJSONResponseReturnsError")
         // Act
         sut.getIncidents { result in
             switch(result){
             case .failure(let error):
                 // Assert
-                XCTAssertEqual(NetworkError.DecodingIssue.localizedDescription, error.localizedDescription)
+                XCTAssertEqual(NetworkError.DecodingIssue.localizedDescription, error.localizedDescription, "testRemoteDataSource_WhenReceiveDifferentJSONResponse_ReturnsError did not return expected error")
+                expectation.fulfill()
+            default:()
+            }
+        }
+       waitForExpectations(timeout: 5)
+    }
+    
+    func testRemoteDataSource_WhenEmptyURLStringProvided_ReturnsError(){
+        // Arrange
+        let sut = IncidentRemoteDataSource(urlString: "", urlSession: urlSession)
+        let expectation = self.expectation(description: "testRemoteDataSourceWhenEmptyURLStringProvidedReturnsError")
+        // Act
+        sut.getIncidents { result in
+            switch(result){
+            case .failure(let error):
+                // Assert
+                XCTAssertEqual(NetworkError.InvalidUrl.localizedDescription, error.localizedDescription, "WhenEmptyURLStringProvided did not return expected error")
                 expectation.fulfill()
             default:()
             }
